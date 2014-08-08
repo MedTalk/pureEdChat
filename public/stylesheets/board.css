@@ -1,0 +1,12 @@
+.controls
+{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background-color:#2277dd;
+  padding:5px;
+  margin:2px;
+  color:#fff;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}

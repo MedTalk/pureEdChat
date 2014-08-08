@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Canvas Draw</title>
+  <link rel="stylesheet" href="/stylesheets/board.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/javascripts/canvasdraw.js"></script>
@@ -12,22 +13,30 @@
       $.post('/login', {email: 'email@gmail.com'}).done(function (result) {
         if(result.error == 0){
           socket = io.connect(document.domain, {query: 'token=' + result.token});
-
+          socket.on('canvasdraw', function(data){
+            cdraw.draw(data);
+          });
 
           $('#board').mousedown(function(e){
             cdraw.mousePressed = true;
             var x = e.pageX - $(this).offset().left;
             var y = e.pageY - $(this).offset().top;
-            socket.emit('draw', {x:x, y:y, isPress:false});
-            cdraw.draw(x,y,false);
+            var width = $('#selWidth').val();
+            var color = $('#selColor').val();
+            var data = {x:x,y:y,isPress:false,width:width,color:color}
+            socket.emit('draw', {x:x, y:y, isPress:false, width:width, color:color});
+            cdraw.draw(data);
           });
 
           $('#board').mousemove(function(e){
             if(cdraw.mousePressed){
               var x = e.pageX - $(this).offset().left;
               var y = e.pageY - $(this).offset().top;
-              socket.emit('draw', {x:x, y:y, isPress:true});
-              cdraw.draw(x,y,true);
+              var width = $('#selWidth').val();
+              var color = $('#selColor').val();
+              var data = {x:x,y:y,isPress:true,width:width,color:color}
+              socket.emit('draw', {x:x, y:y, isPress:true, width:width, color:color});
+              cdraw.draw(data);
             }
           });
 
@@ -39,6 +48,11 @@
             cdraw.mousePressed = false;
           });
 
+          $('#clearArea').click(function(){
+            socket.emit('clear');
+            cdraw.clear();
+          });
+
         } else {
           alert('Login false');
         }
@@ -47,6 +61,26 @@
   </script>
 </head>
 <body>
-  <canvas id="board" width="500" height="300" style="border:2px solid black; margin: 50px;" ></canvas>
+  
+  <canvas id="board" width="500" height="300" style="border:2px solid black;" ></canvas>
+  <div class="controls">     
+    <button id="clearArea">Clear Area</button>
+    Line width : <select id="selWidth">
+    <option value="1">1</option>
+    <option value="3">3</option>
+    <option value="5" selected="selected">5</option>
+    <option value="7">7</option>
+    <option value="9">9</option>
+    <option value="11">11</option>
+    </select>
+    Color : <select id="selColor">
+    <option value="black">black</option>
+    <option value="blue" selected="selected">blue</option>
+    <option value="red">red</option>
+    <option value="green">green</option>
+    <option value="yellow">yellow</option>
+    <option value="gray">gray</option>
+    </select>
+  </div>
 </body>
 </html>

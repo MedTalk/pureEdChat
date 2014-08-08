@@ -72,7 +72,11 @@ var pureEdClassroom = function(io){
 		});
 
 		socket.on('draw', function(data){
-			io.emit('canvasdraw', data);
+			socket.broadcast.emit('canvasdraw', data);
+		});
+
+		socket.on('clear', function(){
+			socket.broadcast.emit('canvasclear');
 		});
 
 		socket.on('drawClick', function(data) {

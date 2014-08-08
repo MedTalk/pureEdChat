@@ -5,39 +5,23 @@ var canvas_draw = function(o){
     this.mousePressed = false;
 }
 
-canvas_draw.prototype.draw = function(x, y, isDown){
-    if(isDown){
+canvas_draw.prototype.draw = function(data){
+    //console.log(data);
+    if(data.isPress){
         ctx.beginPath();
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = '5';
+        ctx.strokeStyle = data.color;
+        ctx.lineWidth = data.width;
         ctx.lineJoin = 'round';
         ctx.moveTo(canvas_draw.lastX, canvas_draw.lastY);
-        ctx.lineTo(x, y);
+        ctx.lineTo(data.x, data.y);
         ctx.closePath();
         ctx.stroke();
     }
-    canvas_draw.lastX = x;
-    canvas_draw.lastY = y;
+    canvas_draw.lastX = data.x;
+    canvas_draw.lastY = data.y;
 }
 
-
-    /*$(document).ready(function(){
-    	
-    	$('#board').mousedown(function(e){
-    		mousePressed = true;
-    		draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, false);
-
-    	});
-    	$('#board').mousemove(function(e){
-    		if(mousePressed){
-    			draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, true);
-    		}
-    	});
-    	$('#board').mouseup(function(e){
-    		mousePressed = false;
-    	});
-    	$('#board').mouseleave(function(e){
-    		mousePressed = false;
-    	});
-    });
-    function draw*/
+canvas_draw.prototype.clear = function(){
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
