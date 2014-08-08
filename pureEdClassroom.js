@@ -76,11 +76,12 @@ var pureEdClassroom = function(server, secret){
 		});
 
 		socket.on('draw', function(data){
-			socket.broadcast.emit('canvasdraw', data);
+			console.log(data);
+			io.sockets.in(data.roomId).emit('canvasdraw', data);
 		});
 
-		socket.on('clear', function(){
-			socket.broadcast.emit('canvasclear');
+		socket.on('clear', function(roomId){
+			io.sockets.in(roomId).emit('canvasclear');
 		});
 
 		socket.on('drawClick', function(data) {
