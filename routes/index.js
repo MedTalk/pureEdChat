@@ -13,6 +13,9 @@ router.get('/chatroom', function(req, res){
 });
 
 router.post('/login', function(req, res){
+
+	console.log(req.body);
+
 	var profile = {
 		userEmail: req.body.email
 	}
@@ -20,7 +23,7 @@ router.post('/login', function(req, res){
 	var pass = validateToken(profile, function(result){
 		if(result ==true){
 			var token = jwt.sign(profile, jwtSecret, { exporesInMinutes: 60*5});
-			res.json({error: 0, token: token});
+			res.json({token: token, error: 0});
 		} else {
 			res.json({error: 'Login false'})
 		}
