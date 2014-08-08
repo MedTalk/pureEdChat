@@ -10,5 +10,4 @@ var server = app.listen(app.get('port'), function() {
   console.log('Pure Classroom server version ' + version + ' started at port ' + server.address().port + '. Happy teaching!');
 });
 
-var io  = require('socket.io').listen(server, {'log level':1, 'match origin protocol':true});
-var pureEdClassroom = require('../pureEdClassroom')(io);
+var pureEdClassroom = require('../pureEdClassroom')(server);
