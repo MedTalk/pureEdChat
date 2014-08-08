@@ -72,8 +72,10 @@
     <option value="7">7</option>
     <option value="9">9</option>
     <option value="11">11</option>
+    <option value="20">20</option>
     </select>
     Color : <select id="selColor">
+    <option value="white">Erase</option>
     <option value="black">black</option>
     <option value="blue" selected="selected">blue</option>
     <option value="red">red</option>
