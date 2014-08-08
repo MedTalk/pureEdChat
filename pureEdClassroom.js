@@ -1,11 +1,15 @@
 var socketioJwt = require('socketio-jwt');
-var jwtSecret = 'oiwefhdjhvUhasDHuaSDEFSDCJsdkfjdsfssdoreotirhjkd';
+
 var flashCmdPrefix = "vn.puresolutions.pureclassroom.";
+var socketio = require('socket.io');
 var rooms = [];
 var roomTeachers = {};
 
 
-var pureEdClassroom = function(io){
+var pureEdClassroom = function(server, secret){
+	
+	var io  = socketio.listen(server, {'log level':1, 'match origin protocol':true});
+	var jwtSecret = process.env.jwtSecret || 'oiwefhdjhvUhasDHuaSDEFSDCJsdkfjdsfssdoreotirhjkd';
 
 	io.use(socketioJwt.authorize({
 		secret: jwtSecret,
