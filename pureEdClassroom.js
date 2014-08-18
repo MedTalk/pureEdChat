@@ -76,7 +76,7 @@ var pureEdClassroom = function(server, secret){
 		});
 
 		socket.on('draw', function(data){
-			console.log(data);
+			//console.log(data);
 			io.sockets.in(data.roomId).emit('canvasdraw', data);
 		});
 
